@@ -227,8 +227,8 @@ export class RoomStore {
         // Check if this position is far enough from other bonus areas (at least 100m apart)
         validPosition = true;
         for (const existing of bonusAreas) {
-          const { haversine } = require('../utils/distance');
-          const dist = haversine(
+          const { calculateDistance } = require('../utils/distance');
+          const dist = calculateDistance(
             latitude,
             longitude,
             existing.center.latitude,
