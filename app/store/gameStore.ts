@@ -153,6 +153,31 @@ export const useGameStore = create<GameStore>((set, get) => ({
       };
     }),
   
+  setThiefFootprints: (event) =>
+    set((state) => {
+      const newFootprints = new Map(state.thiefFootprints);
+      newFootprints.set(event.thiefId, event.recentLocations);
+      return { thiefFootprints: newFootprints };
+    }),
+  
+  clearExpiredFootprints: () =>
+    set((state) => {
+      const now = Date.now();
+      const footprintExpiryMs = 5 * 60 * 1000; // 5 minutes
+      const newFootprints = new Map<string, Location[]>();
+      
+      state.thiefFootprints.forEach((locations, thiefId) => {
+        const recentLocations = locations.filter(
+          (loc) => now - loc.timestamp < footprintExpiryMs
+        );
+        if (recentLocations.length > 0) {
+          newFootprints.set(thiefId, recentLocations);
+        }
+      });
+      
+      return { thiefFootprints: newFootprints };
+    }),
+  
   setGameEndData: (data) => set({ gameEndData: data }),
   
   reset: () =>
@@ -165,6 +190,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       revealState: null,
       bonusRevealedPlayers: new Set(),
       bonusRevealedUntil: new Map(),
+      thiefFootprints: new Map(),
       gameEndData: null,
       connectionError: null,
     }),

@@ -152,6 +152,12 @@ export default function StartScreen() {
       >
         <Text style={styles.buttonTextSecondary}>Join Game</Text>
       </TouchableOpacity>
+
+      <View style={styles.footerLink}>
+        <TouchableOpacity onPress={() => router.push('/how-to-play')}>
+          <Text style={styles.footerLinkText}>How to Play</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
@@ -341,6 +347,17 @@ const styles = StyleSheet.create({
     color: '#E74C3C',
     fontSize: 14,
     textAlign: 'center',
+  },
+  footerLink: {
+    position: 'absolute',
+    bottom: 24,
+    alignSelf: 'center',
+  },
+  footerLinkText: {
+    color: '#3498DB',
+    textDecorationLine: 'underline',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 
